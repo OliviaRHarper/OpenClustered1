@@ -8,7 +8,15 @@ library(OpenClustered)
 head(OpenClustered::meta_data)
 
 # View meta data characteristics of all datasets in `data_list`
-plot_meta_data(allplots=T)
+
+plot_meta_data(allplots = T, df= data_list)
+
+
+data_list
+
+
+
+
 
 meta_data$dataset <- factor(meta_data$dataset, levels = (unique(meta_data$dataset[order(as.numeric(sub("dat", "", meta_data$dataset)))])))
 meta_data = meta_data %>% arrange(dataset)
