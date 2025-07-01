@@ -9,16 +9,38 @@
 #' @export
 #' 
 plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
+ 
+  ## Start local function code ##
+  # Get the names of all datasets in the input list
+  # (defaults to OpenClustered::data_list)
+  # To make this work for you, assign "df" to be the new list containing all new regression datasets you've added
   
-  df = data_list
-  
-  
-  #get datasets to summarize
   df_names = names(df)
   
-  #subset data to summarize to those included
+  # Load metadata that includes summary info for all datasets;
+  # Change this to your current version of meta data
+  # That is, replace, "OpenClustered::meta_data" below with your new meta_data file saved/generated locally
   df = OpenClustered::meta_data
+  
+  # Filter metadata to include only those datasets present in the input list
   df = df[df$dataset %in% df_names,]
+  ## End local function code ##
+  
+  
+  
+  ## Start old function-wide code ##
+  # df = data_list
+  # 
+  # #get datasets to summarize
+  # df_names = names(df)
+  # 
+  # #subset data to summarize to those included
+  # df = OpenClustered::meta_data
+  # df = df[df$dataset %in% df_names,]
+  ## End old function-wide code ##
+  
+  
+  
   
   #Plot for N obs
   p1 <- ggplot(df, aes(x = n_obs)) +
@@ -71,15 +93,63 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     scale_y_continuous(breaks=c(1,2))
   
   # *** Add in histograms that summarize the mean, SD, and coefficient of variation for continuous outcomes. 
-  # *** Add in plot of missing data
+  #target_mean Plot
+  p5 <- ggplot(df, (aes(x = target_mean))) +
+    geom_histogram(
+      color = "white",
+      fill = "black",boundary = 0) +
+    ggtitle("Mean of Target") +
+    ylab("Frequency") +
+    xlab("Target Mean") +
+    theme_bw() +
+    geom_hline(yintercept = 0) +
+    scale_y_continuous(breaks=c(1,2))
+  
+  
+  #target_sd Plot
+  p6 <- ggplot(df, (aes(x = target_sd))) +
+    geom_histogram(
+      color = "white",
+      fill = "black",boundary = 0) +
+    ggtitle("Standard Deviation of Target") +
+    ylab("Frequency") +
+    xlab("Target Standard Deviation") +
+    theme_bw() +
+    geom_hline(yintercept = 0) +
+    scale_y_continuous(breaks=c(1,2))
+  
+  #coeff_var Plot
+  p7 <- ggplot(df, (aes(x = coeff_var))) +
+    geom_histogram(
+      color = "white",
+      fill = "black",boundary = 0) +
+    ggtitle("Coefficient of Variation") +
+    ylab("Frequency") +
+    xlab("Coefficient of Variation") +
+    theme_bw() +
+    geom_hline(yintercept = 0)
+ 
+  
+  #missing data Plot
+  p8 <- ggplot(df, (aes(x = missing_percent ))) +
+    geom_histogram(color = "white", 
+                   fill = "black",boundary = 0) +
+    ggtitle("Percent of Missing Data") +
+    ylab("Frequency") +
+    xlab("Percent of Missing Data") +
+    theme_bw() +
+    geom_hline(yintercept = 0)
+
+  
  
   
   if(allplots==T){
     #Create combined plot
     # *** Edit this to accommodate new plots once created; 4x2 grid of plots
     
-    grid.arrange(p1, p2, p3, p4,
-                 layout_matrix = matrix(c(1, 2, 3, 4),
+    grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8,
+                 layout_matrix = matrix(c(1, 2, 3, 4, 5, 6, 7, 8),
+                                        nrow = 4,
                                         ncol = 2,
                                         byrow = T))
   }
@@ -88,7 +158,11 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
       list(n_obs_plot = p1, 
            n_feat_plot = p2,
            n_cluster_plot = p3,
-           imb_plot = p4)
+           imb_plot = p4,
+           mean_plot = p5,
+           sd_plot = p6,
+           cv_plot = p7,
+           miss_plot = p8)
     )
   }
 }
