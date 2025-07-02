@@ -9,7 +9,7 @@
 #' @export
 #' 
 plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
-  
+
   #get datasets to summarize
   df_names = names(df)
   
@@ -52,7 +52,6 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     theme_bw() +
     geom_hline(yintercept = 0)
   
-  
   df$imbalance = as.numeric(df$imbalance)
   
   #Imbalance Plot
@@ -67,16 +66,60 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     geom_hline(yintercept = 0) +
     scale_y_continuous(breaks=c(1,2))
   
-  # *** Add in histograms that summarize the mean, SD, and coefficient of variation for continuous outcomes. 
-  # *** Add in plot of missing data
+  #Target Mean Plot
+  p5 <- ggplot(df, (aes(x = target_mean))) +
+    geom_histogram(
+      color = "white",
+      fill = "black",boundary = 0) +
+    ggtitle("Mean of Target") +
+    ylab("Frequency") +
+    xlab("Target Mean") +
+    theme_bw() +
+    geom_hline(yintercept = 0) +
+    scale_y_continuous(breaks=c(1,2))
+  
+  
+  #Target SD Plot
+  p6 <- ggplot(df, (aes(x = target_sd))) +
+    geom_histogram(
+      color = "white",
+      fill = "black",boundary = 0) +
+    ggtitle("Standard Deviation of Target") +
+    ylab("Frequency") +
+    xlab("Target Standard Deviation") +
+    theme_bw() +
+    geom_hline(yintercept = 0) +
+    scale_y_continuous(breaks=c(1,2))
+  
+  #Coeff Var Plot
+  p7 <- ggplot(df, (aes(x = coeff_var))) +
+    geom_histogram(
+      color = "white",
+      fill = "black",boundary = 0) +
+    ggtitle("Coefficient of Variation") +
+    ylab("Frequency") +
+    xlab("Coefficient of Variation") +
+    theme_bw() +
+    geom_hline(yintercept = 0)
  
+  
+  #Missing Data Plot
+  p8 <- ggplot(df, (aes(x = missing_percent ))) +
+    geom_histogram(color = "white", 
+                   fill = "black",boundary = 0) +
+    ggtitle("Percent of Missing Data") +
+    ylab("Frequency") +
+    xlab("Percent of Missing Data") +
+    theme_bw() +
+    geom_hline(yintercept = 0)
   
   if(allplots==T){
     #Create combined plot
     # *** Edit this to accommodate new plots once created; 4x2 grid of plots
     
-    grid.arrange(p1, p2, p3, p4,
-                 layout_matrix = matrix(c(1, 2, 3, 4),
+    grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8,
+                 layout_matrix = matrix(c(1, 2, 3, 4, 5, 6, 7, 8),
+                                        nrow = 4,
                                         ncol = 2,
                                         byrow = T))
   }
@@ -85,7 +128,11 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
       list(n_obs_plot = p1, 
            n_feat_plot = p2,
            n_cluster_plot = p3,
-           imb_plot = p4)
+           imb_plot = p4,
+           mean_plot = p5,
+           sd_plot = p6,
+           cv_plot = p7,
+           miss_plot = p8)
     )
   }
 }
