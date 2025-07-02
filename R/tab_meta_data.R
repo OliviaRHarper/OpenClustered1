@@ -19,6 +19,8 @@ tab_meta_data <- function(formula, df = data_list) {
   temp_data <- OpenClustered::meta_data
   temp_data <- temp_data[temp_data$dataset %in% df_names, ]
   
+  temp_data$imbalance = as.numeric(temp_data$imbalance)
+  
   #Label meta data
   Hmisc::label(temp_data$n_obs) = "Number of Observations"
   Hmisc::label(temp_data$n_features) = "Number of Features"
@@ -26,6 +28,11 @@ tab_meta_data <- function(formula, df = data_list) {
   Hmisc::label(temp_data$n_clusters) = "Number of Clusters"
   Hmisc::label(temp_data$imbalance) = "Imbalance"
   Hmisc::label(temp_data$missing_obs) = "Number of Missing Observations"
+  Hmisc::label(temp_data$target_mean) = "Continuous Outcome Means"
+  Hmisc::label(temp_data$target_sd) = "Continuous Outcome SD"
+  Hmisc::label(temp_data$coeff_var) = "Continuous Outcome Coeficient of Variation"
+  Hmisc::label(temp_data$cluster_type) = "Cluster Type"
+  Hmisc::label(temp_data$task) = "Task"
   
   # Generate the table using the provided formula
   table1::table1(data = temp_data, formula)
