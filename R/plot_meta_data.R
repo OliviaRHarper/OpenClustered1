@@ -59,7 +59,7 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     geom_histogram(
       color = "white",
       fill = "black",boundary = 0) +
-    ggtitle("Imbalance in Minority Class") +
+    ggtitle("Imbalance in Minority Class \n(Categorical Outcome Only)") +
     ylab("Frequency") +
     xlab("Imbalance") +
     theme_bw() +
@@ -71,7 +71,7 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     geom_histogram(
       color = "white",
       fill = "black",boundary = 0) +
-    ggtitle("Mean of Target") +
+    ggtitle("Mean of Target \n(Continuous outcoems only)") +
     ylab("Frequency") +
     xlab("Target Mean") +
     theme_bw() +
@@ -84,7 +84,7 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     geom_histogram(
       color = "white",
       fill = "black",boundary = 0) +
-    ggtitle("Standard Deviation of Target") +
+    ggtitle("Standard Deviation of Target \n(Continuous outcoems only)") +
     ylab("Frequency") +
     xlab("Target Standard Deviation") +
     theme_bw() +
@@ -96,7 +96,7 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     geom_histogram(
       color = "white",
       fill = "black",boundary = 0) +
-    ggtitle("Coefficient of Variation") +
+    ggtitle("Coefficient of Variation \n(Continuous outcoems only)") +
     ylab("Frequency") +
     xlab("Coefficient of Variation") +
     theme_bw() +
