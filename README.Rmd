@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The following was published in BMC Medical Research Methodology. Here is the citation: O’Connell, N.S., Speiser, J.L. OpenClustered: an R package with a benchmark suite of clustered datasets for methodological evaluation and comparison. BMC Med Res Methodol 25, 92 (2025). https://doi.org/10.1186/s12874-025-02548-8
 
-OpenClustered is an R package data repository for clustered and longitudinal datasets. The goal of this package is to coalesce clustered datasets in harmonized fashioned for developing, testing, and benchmarking existing and new methods for clustered data analysis and prediction. Currently, there are 19 binart outcome datasets in this repository loaded in with the list "data_list". Each dataset has a unique set of predictor variables/features, with the outcome commonly renamed to "target" and the cluster variable to "cluster_id". The dataset "meta_data" contains information on each of these data sets. Current functionality of this package is basic - limited to reading in, summarizing, and subsetting datasets based on user defined filtering criteria. The development of this R package is ongoing, as we will continue to add more clustered data sets they become available and can be harmonized. We will continue to add more functionality to this package based on user feedback/requests. 
+OpenClustered is an R package data repository for clustered and longitudinal datasets. The goal of this package is to coalesce clustered datasets in harmonized fashioned for developing, testing, and benchmarking existing and new methods for clustered data analysis and prediction. Currently, there are 19 binary outcome and 11 continuous outcome datasets in this repository loaded in with the list "data_list". Each dataset has a unique set of predictor variables/features, with the outcome commonly renamed to "target" and the cluster variable to "cluster_id". The dataset "meta_data" contains information on each of these data sets. Current functionality of this package is basic - limited to reading in, summarizing, and subsetting datasets based on user defined filtering criteria. The development of this R package is ongoing, as we will continue to add more clustered data sets they become available and can be harmonized. We will continue to add more functionality to this package based on user feedback/requests. 
 
 Update Friday June, 20th 2025: We are in the process of adding longitudinal and clustered continuous outcome data to this data repository. 
 
@@ -44,7 +44,7 @@ head(OpenClustered::meta_data)[,-7]
 
 We can further visually assess characteristics of the datasets with the 'plot_meta_data()' function. This function by default returns characteristic plots for *all* included datasets in 'data_list'. The parameter 'allplots' is logical; if T, it returns a 2x2 grid of plots characterizing the number of observations, features, clustering units, and imbalance across datasets. If 'allplots=F', it returns a list with 4 elements containing each of these plots. 
 
-```{r plot_meta, message=F}
+```{r plot_meta, message=F,warning=F, fig.height=10, fig.width=8}
 # View meta data characteristics of all datasets in `data_list`
 plot_meta_data(allplots=T)
 ```
@@ -76,7 +76,7 @@ ling_data = filter_data(n_obs >=1000, domain=="linguistics", subset=T)
 
 We can then plot the meta data characteristics as we did before, but specifically for this subset data using the "plot_meta_data()" function and specifying the 'df' parameter to be the new subset list. Note, the 'df' parameter in 'plot_meta_data()' can be either a list or the vector of dataset names given by 'filter_data()':
 
-```{r filter_summary, message=F}
+```{r filter_summary, message=F, warning=F, fig.height=10, fig.width=8}
 # view characteristics of new data
 plot_meta_data(allplots=T, df = ling_data)
 ```
