@@ -20,7 +20,8 @@ tab_meta_data <- function(Task = "both", formula, df = data_list) {
   temp_data <- OpenClustered::meta_data
   temp_data <- temp_data[temp_data$dataset %in% df_names, ]
   
-  temp_data$imbalance <- as.numeric(temp_data$imbalance)
+  
+  temp_data$imbalance = as.numeric(temp_data$imbalance)
 
   
   #Label meta data

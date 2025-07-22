@@ -11,17 +11,21 @@ OpenClustered is an R package data repository for clustered and
 longitudinal datasets. The goal of this package is to coalesce clustered
 datasets in harmonized fashioned for developing, testing, and
 benchmarking existing and new methods for clustered data analysis and
-prediction. Currently, there are 19 datasets in this repository loaded
-in with the list “data_list”. Each dataset has a unique set of predictor
-variables/features, with the outcome commonly renamed to “target” and
-the cluster variable to “cluster_id”. The dataset “meta_data” contains
-information on each of these data sets. Current functionality of this
-package is basic - limited to reading in, summarizing, and subsetting
-datasets based on user defined filtering criteria. The development of
-this R package is ongoing, as we will continue to add more clustered
-data sets they become available and can be harmonized. We will continue
-to add more functionality to this package based on user
-feedback/requests.
+prediction. Currently, there are 19 binary outcome and 11 continuous
+outcome datasets in this repository loaded in with the list “data_list”.
+Each dataset has a unique set of predictor variables/features, with the
+outcome commonly renamed to “target” and the cluster variable to
+“cluster_id”. The dataset “meta_data” contains information on each of
+these data sets. Current functionality of this package is basic -
+limited to reading in, summarizing, and subsetting datasets based on
+user defined filtering criteria. The development of this R package is
+ongoing, as we will continue to add more clustered data sets they become
+available and can be harmonized. We will continue to add more
+functionality to this package based on user feedback/requests.
+
+Update Friday June, 20th 2025: We are in the process of adding
+longitudinal and clustered continuous outcome data to this data
+repository.
 
 **If you have a clustered dataset without protected information that you
 can make publicly available, please reach out and we would be happy to
@@ -44,7 +48,7 @@ tidyverse, gridExtra, and table1.
 
 ## View Meta Data and Info of available datasets
 
-We can view info and meta data on the availble datasets within the list
+We can view info and meta data on the available datasets within the list
 ‘data_list’ by viewing ‘meta_data’:
 
 ``` r
@@ -60,20 +64,20 @@ head(OpenClustered::meta_data)[,-7]
     ## 4   dat12       dative      Verb linguistics        real repeated_measurements
     ## 5   dat13      culcita predation       ocean        real               grouped
     ## 6   dat14      toenail   outcome    medicine        real          longitudinal
-    ##   n_obs n_features n_clusters n_classes imbalance           task missing_obs
-    ## 1  8469         20        381         2      0.30 Classification           0
-    ## 2  2449         11        161         2      0.45 Classification           0
-    ## 3  1602          5         34         2      0.31 Classification        1140
-    ## 4  3263         13         75         2      0.26 Classification         903
-    ## 5    80          1         10         2      0.38 Classification           0
-    ## 6  1908          2        294         2      0.21 Classification           0
-    ##   missing_percent
-    ## 1       0.0000000
-    ## 2       0.0000000
-    ## 3       0.7116105
-    ## 4       0.2767392
-    ## 5       0.0000000
-    ## 6       0.0000000
+    ##   n_obs n_features n_clusters n_classes imbalance           task target_mean
+    ## 1  8469         20        381         2       0.3 Classification          NA
+    ## 2  2449         11        161         2      0.45 Classification          NA
+    ## 3  1602          5         34         2      0.31 Classification          NA
+    ## 4  3263         13         75         2      0.26 Classification          NA
+    ## 5    80          1         10         2      0.38 Classification          NA
+    ## 6  1908          2        294         2      0.21 Classification          NA
+    ##   target_sd coeff_var missing_obs missing_percent
+    ## 1        NA        NA           0       0.0000000
+    ## 2        NA        NA           0       0.0000000
+    ## 3        NA        NA        1140       0.7116105
+    ## 4        NA        NA         903       0.2767392
+    ## 5        NA        NA           0       0.0000000
+    ## 6        NA        NA           0       0.0000000
 
 ### Plot Meta Data
 
@@ -108,11 +112,14 @@ are variables to summarize.
 tab_meta_data(~n_obs +  n_features + n_clusters + imbalance + missing_percent)
 ```
 
+    ## Warning in tab_meta_data(~n_obs + n_features + n_clusters + imbalance + : NAs
+    ## introduced by coercion
+
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=19)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=30)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -122,11 +129,11 @@ tab_meta_data(~n_obs +  n_features + n_clusters + imbalance + missing_percent)
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>2060 (2110)</td>
+<td>3070 (5810)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>1910 [80.0, 8470]</td>
+<td class='lastrow'>1360 [32.0, 31000]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'>Number of Features</td>
@@ -134,7 +141,7 @@ tab_meta_data(~n_obs +  n_features + n_clusters + imbalance + missing_percent)
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>5.84 (4.92)</td>
+<td>6.20 (5.19)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
@@ -146,11 +153,11 @@ tab_meta_data(~n_obs +  n_features + n_clusters + imbalance + missing_percent)
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>149 (168)</td>
+<td>244 (524)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>60.0 [10.0, 537]</td>
+<td class='lastrow'>55.0 [6.00, 2410]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'>Imbalance</td>
@@ -161,8 +168,12 @@ tab_meta_data(~n_obs +  n_features + n_clusters + imbalance + missing_percent)
 <td>0.309 (0.118)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>0.330 [0.120, 0.480]</td>
+<td class='rowlabel'>Median [Min, Max]</td>
+<td>0.330 [0.120, 0.480]</td>
+</tr>
+<tr>
+<td class='rowlabel lastrow'>Missing</td>
+<td class='lastrow'>11 (36.7%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'>Rows with Missing Data</td>
@@ -170,7 +181,7 @@ tab_meta_data(~n_obs +  n_features + n_clusters + imbalance + missing_percent)
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>0.0662 (0.173)</td>
+<td>0.0423 (0.140)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>

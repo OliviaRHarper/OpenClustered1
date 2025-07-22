@@ -9,7 +9,7 @@
 #' @export
 #' 
 plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
- 
+
   #get datasets to summarize
   df_names = names(df)
   
@@ -59,7 +59,7 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     geom_histogram(
       color = "white",
       fill = "black",boundary = 0) +
-    ggtitle("Imbalance in Minority Class") +
+    ggtitle("Imbalance in Minority Class \n(Categorical Outcomes Only)") +
     ylab("Frequency") +
     xlab("Imbalance") +
     theme_bw() +
@@ -71,7 +71,7 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     geom_histogram(
       color = "white",
       fill = "black",boundary = 0) +
-    ggtitle("Mean of Target") +
+    ggtitle("Mean of Target \n(Continuous Outcomes only)") +
     ylab("Frequency") +
     xlab("Target Mean") +
     theme_bw() +
@@ -84,7 +84,7 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     geom_histogram(
       color = "white",
       fill = "black",boundary = 0) +
-    ggtitle("Standard Deviation of Target") +
+    ggtitle("Standard Deviation of Target \n(Continuous Outcomes only)") +
     ylab("Frequency") +
     xlab("Target Standard Deviation") +
     theme_bw() +
@@ -96,7 +96,7 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     geom_histogram(
       color = "white",
       fill = "black",boundary = 0) +
-    ggtitle("Coefficient of Variation") +
+    ggtitle("Coefficient of Variation \n(Continuous Outcomes only)") +
     ylab("Frequency") +
     xlab("Coefficient of Variation") +
     theme_bw() +
@@ -117,7 +117,7 @@ plot_meta_data <- function(allplots=T, df = OpenClustered::data_list){
     #Create combined plot
     # *** Edit this to accommodate new plots once created; 4x2 grid of plots
     
-    grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8,
+    grid.arrange(p1, p2, p3, p8,p4, p5, p6, p7,
                  layout_matrix = matrix(c(1, 2, 3, 4, 5, 6, 7, 8),
                                         nrow = 4,
                                         ncol = 2,
